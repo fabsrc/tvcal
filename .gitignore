@@ -1,2 +1,13 @@
-node_modules/
-npm-debug.log
+logs
+*.log
+npm-debug.log*
+pids
+*.pid
+*.seed
+lib-cov
+coverage
+.lock-wscript
+build/Release
+node_modules
+.npm
+.node_repl_history
