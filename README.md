@@ -1,6 +1,6 @@
 # TVCal
 
-A Node.js server providing the air dates of TV episodes as ical/webcal.
+A Node.js server providing the air dates of upcoming TV show episodes as ical/webcal.
 
 ## Install
 
