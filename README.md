@@ -34,5 +34,4 @@ This application makes use of the [TVMaze API](http://www.tvmaze.com/api).
 
 ## License
 
-Copyright (c) 2016 Fabian Schneider
 Licensed under the [MIT License](http://opensource.org/licenses/mit-license.php).
