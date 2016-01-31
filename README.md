@@ -11,18 +11,18 @@ $ npm install
 ## Start
 
 ```bash
-$ node main
+$ npm start
 ```
 
 ## Usage
 
-### Get air dates by series titles
+### Get air dates by series title
 
 ```http
 webcal://localhost:5000/shows/?q=shameless;brooklyn%20nine-nine
 ```
 
-### Get air dates by [TVMaze](http://tvmaze.com/) ids
+### Get air dates by [TVMaze](http://tvmaze.com/) id
 
 ```http
 webcal://localhost:5000/shows/150;49
