@@ -12,5 +12,11 @@
     "express": "^4.13.4",
     "ical-generator": "^0.2.7",
     "request-promise": "^2.0.0"
+  },
+  "jshintConfig": {
+    "esnext": true,
+    "asi": true,
+    "globalstrict": true,
+    "predef": [ "require", "console", "module" ]
   }
 }
