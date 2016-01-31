@@ -24,7 +24,9 @@ function getAirDates(req, res) {
   }
 
   let shows = query.split(';')
-  let showsAndEpisodes = shows.map( s => tvmaze.findOrGetShowAndEpisodes(s) )
+  let showsAndEpisodes = req.params.id ?
+    shows.map( s => tvmaze.getShow(s) ) :
+    shows.map( s => tvmaze.findSingleShow(s) )
 
   Promise.all(showsAndEpisodes).then( shows => {
     shows.forEach( show => {
