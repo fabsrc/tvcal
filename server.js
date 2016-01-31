@@ -4,7 +4,6 @@ const app     = require('express')()
 const ical    = require('ical-generator')
 const tvmaze  = require('./tvmaze')
 
-
 Number.prototype.pad = function(size) {
   let s = String(this)
   while (s.length < (size || 2)) { s = '0' + s }
@@ -24,39 +23,31 @@ function getAirDates(req, res) {
     return res.send('No Query or ID given!')
   }
 
-  let series = query.split(';')
-  let seriesAndEpisodes = series.map( (s) => {
-    let showName
+  let shows = query.split(';')
+  let showsAndEpisodes = shows.map( s => tvmaze.findOrGetShowAndEpisodes(s) )
 
-    return tvmaze.findOrGetShow(s)
-      .then( (show) => {
-        if (show.status !== 'Running')
-          return
+  Promise.all(showsAndEpisodes).then( shows => {
+    shows.forEach( show => {
+      let episodes = show._embedded && show._embedded.episodes || null
 
-        showName = show.name
+      if (!episodes || show.status !== 'Running')
+        return
 
-        return tvmaze.getEpisodes(show.id)
+      episodes.filter( episode => {
+        return new Date(episode.airstamp) >= new Date()
       })
-      .then( (episodes) => {
-        if (!episodes)
-          return
-
-        return episodes.filter( (episode) => {
-          return new Date(episode.airstamp) >= new Date()
-        }).forEach( (episode) => {
-          cal.createEvent({
-            start: new Date(episode.airstamp),
-            end: new Date(new Date(episode.airstamp).getTime() + episode.runtime*60*1000),
-            summary: showName + ' [S' + episode.season.pad() + 'E' + episode.number.pad() + ']',
-            description: episode.name + '\n' + episode.url
-          })
+      .forEach( episode => {
+        cal.createEvent({
+          start: new Date(episode.airstamp),
+          end: new Date(new Date(episode.airstamp).getTime() + episode.runtime*60*1000),
+          summary: show.name + ' [S' + episode.season.pad() + 'E' + episode.number.pad() + ']',
+          description: episode.name + '\n' + episode.url
         })
       })
-  })
+    })
 
-  Promise.all(seriesAndEpisodes).then( () => {
-    cal.serve(res)
     // res.send(cal.toString())
+    cal.serve(res)
   })
 }
 
