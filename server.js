@@ -1,8 +1,9 @@
 'use strict'
 
-const app     = require('express')()
 const ical    = require('ical-generator')
 const tvmaze  = require('./tvmaze')
+const express = require('express')
+const app     = express()
 
 Number.prototype.pad = function(size) {
   let s = String(this)
@@ -51,11 +52,15 @@ function getAirDates(req, res) {
 
     // res.send(cal.toString())
     cal.serve(res)
+  }).catch( err => {
+    console.error(err)
+    res.status(404).send('Shows not found!')
   })
 }
 
 app.get('/shows/:id', getAirDates)
 app.get('/shows/', getAirDates)
-app.get('/*', (req, res) => res.send(''))
+app.use(express.static(__dirname + '/public'))
+app.use((req, res, next) => res.sendFile(__dirname + '/views/index.html'))
 
 app.listen(5000, console.log('TVCal listening on port 5000!'))

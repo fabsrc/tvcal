@@ -16,6 +16,11 @@ $ npm start
 
 ## Usage
 
+### Use Selector Application
+
+To select shows to get air dates for go to `http://localhost:5000` and use the web application. It will create a webcal-url which you can directly add to your calendar.
+
+
 ### Get air dates by series title
 
 ```http
