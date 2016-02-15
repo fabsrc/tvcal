@@ -37,7 +37,7 @@ function getAirDates(req, res) {
         return
 
       episodes.filter( episode => {
-        return new Date(episode.airstamp) >= new Date(new Date() - 24*60*60*1000)
+        return new Date(episode.airstamp) >= new Date(new Date() - 14*24*60*60*1000)
       })
       .forEach( episode => {
         cal.createEvent({
