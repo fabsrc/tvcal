@@ -17,6 +17,6 @@
     "esversion": 6,
     "asi": true,
     "globalstrict": true,
-    "predef": [ "require", "console", "module" ]
+    "predef": [ "require", "console", "module", "__dirname" ]
   }
 }

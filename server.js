@@ -15,8 +15,8 @@ function getAirDates(req, res) {
   let cal = ical()
 
   cal.name('TVCal')
-  cal.domain('tvcal.retromediation.net')
-  cal.prodId('//tvcal.retromediation.net//TVCal//EN')
+  cal.domain(req.headers.host)
+  cal.prodId('//' + req.headers.host + '//TVCal//EN')
 
   let query = req.params.id || req.query.q
 
