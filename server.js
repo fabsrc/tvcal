@@ -1,28 +1,23 @@
 'use strict'
 
 const ical    = require('ical-generator')
-const tvmaze  = require('./tvmaze')
+const tvmaze  = require('./lib/tvmaze')
+const pad     = require('./lib/pad')
 const express = require('express')
 const app     = express()
 
-Number.prototype.pad = function(size) {
-  let s = String(this)
-  while (s.length < (size || 2)) { s = '0' + s }
-  return s
-}
-
 function getAirDates(req, res) {
-  let cal = ical()
-
-  cal.name('TVCal')
-  cal.domain(req.headers.host)
-  cal.prodId('//' + req.headers.host + '//TVCal//EN')
-
   let query = req.params.id || req.query.q
 
   if (!query) {
     return res.send('No Query or ID given!')
   }
+
+  let cal = ical()
+
+  cal.name('TVCal')
+  cal.domain(req.headers.host)
+  cal.prodId('//' + req.headers.host + '//TVCal//EN')
 
   let shows = query.split(';')
   let showsAndEpisodes = req.params.id ?
@@ -37,6 +32,7 @@ function getAirDates(req, res) {
         return
 
       episodes.filter( episode => {
+        // display no episodes older than two weeks
         return new Date(episode.airstamp) >= new Date(new Date() - 14*24*60*60*1000)
       })
       .forEach( episode => {
