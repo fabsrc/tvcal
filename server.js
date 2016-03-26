@@ -46,16 +46,17 @@ function getAirDates(req, res) {
       })
     })
 
-    // res.send(cal.toString())
-    cal.serve(res)
+    if (process.env.NODE_ENV === 'development')
+      return res.send(cal.toString())
+
+    return cal.serve(res)
   }).catch( err => {
     console.error(err)
     res.status(404).send('Shows not found!')
   })
 }
 
-app.get('/shows/:id', getAirDates)
-app.get('/shows/', getAirDates)
+app.get('/shows/:id?', getAirDates)
 app.use(express.static(__dirname + '/public'))
 app.use((req, res, next) => res.sendFile(__dirname + '/views/index.html'))
 
