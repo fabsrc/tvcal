@@ -9,9 +9,8 @@ const app     = express()
 function getAirDates(req, res) {
   let query = req.params.id || req.query.q
 
-  if (!query) {
+  if (!query)
     return res.send('No Query or ID given!')
-  }
 
   let cal = ical()
 
