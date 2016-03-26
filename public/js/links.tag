@@ -26,7 +26,7 @@
 
   extractNames(selected) {
     return Object.keys(selected).map(id => {
-      return selected[id].name
+      return encodeURIComponent(selected[id].name)
     })
   }
 
