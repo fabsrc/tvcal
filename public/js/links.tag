@@ -38,7 +38,7 @@
   importLink() {
     var link = prompt('Import TVCal Link')
 
-    var isSearch = !!link.match(/\?q=(.*)/i)
+    var isSearch = link && !!link.match(/\?q=(.*)/i)
     var query = link && (link.match(/\?q=(.*)/i) ||
                 link.match(/\/shows\/([\d|\;]*)/i)) ||
                 null
