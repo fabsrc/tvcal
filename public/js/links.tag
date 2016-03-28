@@ -36,12 +36,12 @@
   }
 
   importLink() {
-    var link = document.createElement('a')
-    link.href = prompt('Import TVCal Link')
+    var link = prompt('Import TVCal Link')
 
-    var isSearch = !!link.search
-    var query = link.search && link.search.match(/\?q=(.*)/i) ||
-                link.pathname.match(/\/shows\/([\d|\;]*)/i)
+    var isSearch = !!link.match(/\?q=(.*)/i)
+    var query = link && (link.match(/\?q=(.*)/i) ||
+                link.match(/\/shows\/([\d|\;]*)/i)) ||
+                null
 
     query = query && query.length > 1 && query[1].split(';')
 
