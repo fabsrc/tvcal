@@ -37,7 +37,7 @@
 
   importLink() {
     var link = document.createElement('a')
-    link.href = prompt('Enter Webcal-Url...')
+    link.href = prompt('Import TVCal Link')
 
     var isSearch = !!link.search
     var query = link.search && link.search.match(/\?q=(.*)/i) ||
