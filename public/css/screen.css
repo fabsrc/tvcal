@@ -74,12 +74,7 @@ a:hover {
   border-width: 1px;
   border-top-style: solid;
   border-bottom-style: solid;
-  padding: 30px 0;
   position: relative;
-}
-
-.app-links.-hidden {
-  visibility: hidden;
 }
 
 .app-links > .link {
@@ -88,14 +83,19 @@ a:hover {
   text-overflow: ellipsis;
 }
 
-.link-switch {
-  position: absolute;
-  bottom: -18px;
-  left: 0;
-  right: 0;
+.app-links > .link.-hidden {
+  visibility: hidden;
 }
 
-.link-switch > .button {
+.link-switch {
+  transform: translateY(50%);
+}
+
+.link-import {
+  transform: translateY(-50%);
+}
+
+.circle-icon {
   background: #fff;
   cursor: pointer;
   width: 30px;

@@ -17,21 +17,16 @@
 
 <script>
   var self = this;
-  var request = new XMLHttpRequest();
   self.selected = opts.app.selected
 
   keyup(e) {
-    request.open('GET', 'http://api.tvmaze.com/search/shows?q=' + e.target.value, true);
-    request.onload = function() {
-      if (request.status >= 200 && request.status < 400) {
-        var data = JSON.parse(request.responseText);
-        if (data) {
-          var results = data.map(s => s.show).map(s => { s.network = s.network || s.webChannel; return s; } )
+    axios.get('http://api.tvmaze.com/search/shows?q=' + e.target.value)
+      .then(function(response) {
+        if (response && response.data) {
+          var results = response.data.map(s => s.show).map(s => { s.network = s.network || s.webChannel; return s; } )
           self.update({ results: results })
         }
-      }
-    };
-    request.send();
+      })
   }
 
   toggle(e) {

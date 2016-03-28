@@ -21,7 +21,7 @@
 <script>
   var self = this
   var STORAGE_KEY = 'tvcal-selector'
-  this.year = new Date().getFullYear()
+  self.year = new Date().getFullYear()
 
   self.selected = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}
 

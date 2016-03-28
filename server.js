@@ -12,16 +12,15 @@ function getAirDates(req, res) {
   if (!query)
     return res.send('No Query or ID given!')
 
-  let cal = ical()
+  let cal = ical({
+    name: 'TVCal',
+    domain: req.headers.host,
+    prodId: '//' + req.headers.host + '//TVCal//EN'
+  })
 
-  cal.name('TVCal')
-  cal.domain(req.headers.host)
-  cal.prodId('//' + req.headers.host + '//TVCal//EN')
-
-  let shows = query.split(';')
-  let showsAndEpisodes = req.params.id ?
-    shows.map( s => tvmaze.getShow(s) ) :
-    shows.map( s => tvmaze.findSingleShow(s) )
+  let showsAndEpisodes = query.split(';').map( s =>
+    req.params.id ? tvmaze.getShow(s) : tvmaze.findSingleShow(s)
+  )
 
   Promise.all(showsAndEpisodes).then( shows => {
     shows.forEach( show => {
@@ -45,10 +44,7 @@ function getAirDates(req, res) {
       })
     })
 
-    if (process.env.NODE_ENV === 'development')
-      return res.send(cal.toString())
-
-    return cal.serve(res)
+    return (process.env.NODE_ENV === 'development') ? res.send(cal.toString()) : cal.serve(res)
   }).catch( err => {
     console.error(err)
     res.status(404).send('Shows not found!')
