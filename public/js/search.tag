@@ -11,7 +11,7 @@
         <p>{ network.country.code }{ network.country.code ? ', ' : '' }{ new Date(premiered).getFullYear() }</p>
       </div>
       <span class="button"></span>
-    </a>
+    </li>
   </ul>
 </div>
 

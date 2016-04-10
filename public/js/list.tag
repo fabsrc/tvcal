@@ -1,9 +1,10 @@
 <list>
 
+<div class="count">{ Object.keys(selected).length }</div>
 <ul class="selected-list">
-  <li class="selected-item" each={ order(selected) }>
+  <li class="selected-item" each={ order(selected) } onclick={ remove }>
     <span>{ name }</span>
-    <span class="remove" onclick={ remove }>✖</span>
+    <!-- <span class="remove" onclick={ remove }>✖</span> -->
   </li>
 </ul>
 

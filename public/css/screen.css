@@ -30,16 +30,16 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 300;
+  font-weight: inherit;
 }
 
 body {
   font-family: 'Raleway', sans-serif;
   color: #4a90e2;
   border-color: #4a90e2;
-  border-width: 1px;
   text-align: center;
   margin: 0 15px;
+  font-weight: 200;
 }
 
 a {
@@ -47,13 +47,9 @@ a {
   color: inherit;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 .app-container {
   background-color: #fff;
-  max-width: 720px;
+  max-width: 520px;
   margin: auto;
 }
 
@@ -70,22 +66,41 @@ a:hover {
   font-size: .8em;
 }
 
-.app-links {
+.ui-button {
+  display: inline-block;
+  cursor: pointer;
+  border-style: solid;
   border-width: 1px;
-  border-top-style: solid;
-  border-bottom-style: solid;
-  position: relative;
+  padding: 2px 4px;
+  text-transform: uppercase;
+  transition: opacity .15s;
 }
 
-.app-links > .link {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.ui-button.-copied {
+  border-color: #7ed321;
+  color: #7ed321;
 }
 
-.app-links > .link.-hidden {
-  visibility: hidden;
+.ui-button:hover {
+  opacity: .5;
 }
+
+// .app-links {
+//   border-width: 1px;
+//   border-top-style: solid;
+//   border-bottom-style: solid;
+//   position: relative;
+// }
+
+// .app-links > .link {
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
+
+// .app-links > .link.-hidden {
+//   visibility: hidden;
+// }
 
 .link-switch {
   transform: translateY(50%);
@@ -105,6 +120,19 @@ a:hover {
   border-width: 1px;
   display: inline-block;
   line-height: 30px;
+}
+
+list {
+  display: block;
+  position: absolute;
+  width: 250px;
+  padding-right: 10px;
+  transform: translateX(-100%);
+}
+
+search {
+  display: block;
+  margin-top: 50px;
 }
 
 .app-search > .input {
@@ -194,7 +222,6 @@ a:hover {
   border-width: 1px;
   border-style: solid;
   padding: 3px 12px;
-  font-weight: 300;
   font-size: .7em;
   display: inline-block;
   vertical-align: 3px;
@@ -206,27 +233,28 @@ a:hover {
 }
 
 .selected-list {
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: inherit;
   text-align: left;
-  padding: 30px 0;
-  white-space: nowrap;
-  overflow-x: scroll;
-  display: block;
-  height: 91.5px;
 }
 
 .selected-item {
-  border-color: inherit;
-  border-width: 1px;
-  border-style: solid;
-  display: inline-block;
-  border-radius: 20px;
-  padding: 5px 15px;
-}
-
-.selected-item + .selected-item {
-  margin-left: 15px;
-}
-
-.selected-item > .remove {
   cursor: pointer;
+  display: block;
+  position: relative;
+  padding: 10px 15px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: inherit;
 }
+
+.selected-item:hover {
+  text-decoration: line-through;
+}
+
+// .selected-item > .remove {
+//   cursor: pointer;
+//   pos: absolute;
+//   right: 0;
+// }

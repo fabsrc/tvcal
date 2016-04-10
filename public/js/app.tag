@@ -8,12 +8,13 @@
 
   <links app={ this }></links>
 
-  <list app={ this }></list>
-
-  <search app={ this }></search>
+  <div class="flex-container">
+    <list app={ this }></list>
+    <search app={ this }></search>
+  </div>
 
   <footer class="app-footer">
-    <p>© { year } <a href="https://github.com/fabsrc">Fabian Schneider</a>.<br/>Licensed under the <a href="https://opensource.org/licenses/MIT">MIT</a> license. Data from <a href="http://www.tvmaze.com/">TVmaze.com.</a></p>
+    <p>© { year } <a href="https://github.com/fabsrc">fabsrc</a>.<br/>Licensed under the <a href="https://opensource.org/licenses/MIT">MIT</a> license.<br>Data from <a href="http://www.tvmaze.com/">TVmaze.com.</a></p>
     <p></a></p>
   </footer>
 </div>
