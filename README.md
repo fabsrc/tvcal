@@ -33,6 +33,12 @@ webcal://localhost:5000/shows/?q=shameless;brooklyn%20nine-nine
 webcal://localhost:5000/shows/150;49
 ```
 
+## Development
+
+```bash
+npm run dev
+```
+
 ## Credits
 
 This application makes use of the [TVMaze API](http://www.tvmaze.com/api).

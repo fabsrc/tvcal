@@ -36,7 +36,6 @@ h6 {
 body {
   font-family: 'Raleway', sans-serif;
   color: #4a90e2;
-  border-color: #4a90e2;
   text-align: center;
   margin: 0 15px;
   font-weight: 200;
@@ -71,9 +70,11 @@ a {
   cursor: pointer;
   border-style: solid;
   border-width: 1px;
-  padding: 2px 4px;
   text-transform: uppercase;
   transition: opacity .15s;
+  font-size: 0.9em;
+  padding: 8px 12px;
+  letter-spacing: 2px;
 }
 
 .ui-button.-copied {
@@ -82,25 +83,8 @@ a {
 }
 
 .ui-button:hover {
-  opacity: .5;
+  border-style: dotted;
 }
-
-// .app-links {
-//   border-width: 1px;
-//   border-top-style: solid;
-//   border-bottom-style: solid;
-//   position: relative;
-// }
-
-// .app-links > .link {
-//   white-space: nowrap;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-// }
-
-// .app-links > .link.-hidden {
-//   visibility: hidden;
-// }
 
 .link-switch {
   transform: translateY(50%);
@@ -252,9 +236,3 @@ search {
 .selected-item:hover {
   text-decoration: line-through;
 }
-
-// .selected-item > .remove {
-//   cursor: pointer;
-//   pos: absolute;
-//   right: 0;
-// }
