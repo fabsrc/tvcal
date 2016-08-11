@@ -17,5 +17,9 @@
   "devDependencies": {
     "browser-sync": "*",
     "standard": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabsrc/tvcal"
   }
 }
