@@ -4,7 +4,7 @@
   <input class="link" value="{ getLink() }" onClick="this.select()" readonly>
 
   <div class="link-buttons">
-    <import></import>
+    <linkImport></linkImport>
     <div class="button copy-button" onclick="{ copyLink }">Copy Link</div>
     <div class="button switch-button" onclick="{ switchLinks }">Switch Links</dib>
   </div>

@@ -1,4 +1,4 @@
-<import>
+<linkImport>
 
 <div class="button import-button" onclick="{ import }">Import Link</i></div>
 
@@ -34,4 +34,4 @@
     }
   }
 </script>
-</import>
+</linkImport>
