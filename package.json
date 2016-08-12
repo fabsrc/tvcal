@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "./node_modules/.bin/standard",
-    "dev": "NODE_ENV=development npm start & browser-sync start --proxy 'localhost:5000' --files 'public/js/*.js, public/css/*.css, views/*.html'"
+    "dev": "NODE_ENV=development npm start & browser-sync start --proxy 'localhost:5000' --files 'public/js/*.tag, public/css/*.css, views/*.html'"
   },
   "author": "Fabian Schneider",
   "license": "MIT",

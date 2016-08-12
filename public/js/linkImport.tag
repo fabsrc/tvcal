@@ -16,20 +16,20 @@
     query = query && query.length > 1 && query[1].split(';')
 
     if (query && query.length > 0) {
-      opts.selected = {}
+      self.selected = {}
       var url = isSearch ? 'http://api.tvmaze.com/singlesearch/shows?q=' :
-                          'http://api.tvmaze.com/shows/'
+                           'http://api.tvmaze.com/shows/'
 
       var requests = query.map(function(show) {
         return axios.get(url + show)
           .then(function(show) {
             show = show.data
             show.insertDate = new Date()
-            opts.selected[show.id] = show
+            self.selected[show.id] = show
           })
       })
       axios.all(requests).then(function() {
-        self.parent.update({ selected: opts.selected })
+        self.parent.parent.update({ selected: self.selected })
       })
     }
   }
