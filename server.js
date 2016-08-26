@@ -53,3 +53,5 @@ app.use((req, res, next) => res.sendFile(path.resolve('views/index.html')))
 app.listen(5000, function () {
   console.log('TVCal listening on port', this.address().port)
 })
+
+module.exports = app

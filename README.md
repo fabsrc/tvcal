@@ -1,4 +1,5 @@
 # TVCal
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
 A Node.js server providing the air dates of upcoming TV show episodes as ical/webcal.
 

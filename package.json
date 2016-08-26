@@ -4,7 +4,7 @@
   "description": "Get air dates of TV episodes as ical",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/.bin/standard",
+    "test": "./node_modules/.bin/standard && ./node_modules/.bin/ava",
     "dev": "NODE_ENV=development npm start & browser-sync start --proxy 'localhost:5000' --files 'public/js/*.tag, public/css/*.css, views/*.html'"
   },
   "author": "Fabian Schneider",
@@ -15,8 +15,11 @@
     "request-promise": "^2.0.0"
   },
   "devDependencies": {
+    "ava": "^0.16.0",
     "browser-sync": "*",
-    "standard": "*"
+    "nock": "^8.0.0",
+    "standard": "*",
+    "supertest": "^2.0.0"
   },
   "repository": {
     "type": "git",
