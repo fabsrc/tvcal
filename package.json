@@ -1,6 +1,6 @@
 {
   "name": "tvcal",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Get air dates of TV episodes as ical",
   "main": "server.js",
   "scripts": {
@@ -10,9 +10,9 @@
   "author": "Fabian Schneider",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.4",
+    "express": "^4.14.0",
     "ical-generator": "^0.2.7",
-    "request-promise": "^2.0.0"
+    "request-promise": "^4.1.1"
   },
   "devDependencies": {
     "ava": "^0.16.0",
