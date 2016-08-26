@@ -17,6 +17,7 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "browser-sync": "*",
+    "mockdate": "^1.0.4",
     "nock": "^8.0.0",
     "standard": "*",
     "supertest": "^2.0.0"
