@@ -1,6 +1,6 @@
 {
   "name": "tvcal",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Get air dates of TV episodes as ical",
   "main": "lib/tvcal.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "ical-generator": "^0.2.7",
+    "request": "^2.74.0",
     "request-promise": "^4.1.1"
   },
   "devDependencies": {
