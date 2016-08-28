@@ -38,6 +38,24 @@ webcal://localhost:5000/shows/?q=shameless;brooklyn%20nine-nine
 webcal://localhost:5000/shows/150;49
 ```
 
+### Use as a Module
+
+Returns a calendar object which is created by [ical-generator](https://github.com/sebbo2002/ical-generator).
+
+```js
+const tvcal = require('tvcal')
+
+tvcal({
+	name: 'Cal-Name',
+	domain: 'Cal-Domain',
+	showIds: [150, 49], // Use either showIds or showTitles
+	// showTitles: ['Shameless', 'Brooklyn Nine-Nine'], // Alternative to showIds
+	filterDate: new Date(new Date() - 14 * 24 * 60 * 60 * 1000) // Filter episodes which are older than two weeks
+}).then(cal => {
+	console.log(cal.toString())
+})
+```
+
 ## Development
 
 ```bash

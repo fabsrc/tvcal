@@ -1,8 +1,8 @@
 {
   "name": "tvcal",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Get air dates of TV episodes as ical",
-  "main": "server.js",
+  "main": "lib/tvcal.js",
   "scripts": {
     "test": "standard && ava",
     "dev": "NODE_ENV=development npm start & browser-sync start --proxy 'localhost:5000' --files 'public/js/*.tag, public/css/*.css, views/*.html'"
