@@ -93,7 +93,19 @@ test.cb('unsuccessful ical generation with wrong title', t => {
   })
 })
 
-test.cb('successful ical generation with id via endpoint', t => {
+test.serial.cb('successful ical generation with id via endpoint with filtered episodes', t => {
+  request(app)
+    .get('/shows/1871')
+    .end((err, res) => {
+      t.falsy(err)
+      t.is(res.status, 200)
+      t.truthy(res.text)
+      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 0)
+      t.end()
+    })
+})
+
+test.serial.cb('successful ical generation with id via endpoint', t => {
   MockDate.set('2015-06-24T22:00:00-04:00')
 
   request(app)
@@ -103,11 +115,12 @@ test.cb('successful ical generation with id via endpoint', t => {
       t.is(res.status, 200)
       t.truthy(res.text)
       t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1)
+      MockDate.reset()
       t.end()
     })
 })
 
-test.cb('successful ical generation with title via endpoint', t => {
+test.serial.cb('successful ical generation with title via endpoint', t => {
   MockDate.set('2015-06-24T22:00:00-04:00')
 
   request(app)
@@ -117,6 +130,7 @@ test.cb('successful ical generation with title via endpoint', t => {
       t.is(res.status, 200)
       t.truthy(res.text)
       t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1)
+      MockDate.reset()
       t.end()
     })
 })
