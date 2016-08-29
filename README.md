@@ -64,6 +64,12 @@ tvcal({
 npm run dev
 ```
 
+## Test
+
+```bash
+npm test
+```
+
 ## Credits
 
 This application makes use of the [TVMaze API](http://www.tvmaze.com/api).
