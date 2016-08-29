@@ -14,13 +14,11 @@ function getAirDates (req, res) {
     showTitles: req.query.q ? query.split(';') : false,
     filterDate: new Date(new Date() - 14 * 24 * 60 * 60 * 1000)
   })
-  .catch(err => {
-    console.error(err)
-    res.status(404).send('Shows not found!')
-  })
   .then(cal => {
     if (cal) {
       return (process.env.NODE_ENV === 'development') ? res.send(cal.toString()) : cal.serve(res)
+    } else {
+      res.status(404).send('Shows not found!')
     }
   })
 }
