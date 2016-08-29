@@ -27,7 +27,7 @@ app.get('/shows/:id?', getAirDates)
 app.use(express.static(path.resolve('public')))
 app.use((req, res, next) => res.sendFile(path.resolve('views/index.html')))
 
-app.listen(5000, function () {
+app.listen(process.env.PORT || 5000, function () {
   console.log('TVCal listening on port', this.address().port)
 })
 

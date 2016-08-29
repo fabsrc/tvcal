@@ -19,6 +19,8 @@ $ npm install
 $ npm start
 ```
 
+Use the `PORT` environment variable to set a custom port (default is `5000`).
+
 ## Usage
 
 ### Use Selector Application
