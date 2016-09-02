@@ -61,7 +61,7 @@ tvcal({
 ## Development
 
 ```bash
-npm run dev
+$ npm run dev
 ```
 
 ## Credits
