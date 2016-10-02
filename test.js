@@ -71,6 +71,36 @@ test.cb('successful ical generation with title', t => {
   })
 })
 
+test.cb('successful ical generation with alarm', t => {
+  tvcal({
+    domain: 'TestTVCal',
+    showIds: [1871],
+    alarm: true
+  })
+  .then(cal => {
+    t.truthy(cal)
+    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1)
+    t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1)
+    t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T020000Z/)
+    t.end()
+  })
+})
+
+test.cb('successful ical generation with alarm offset', t => {
+  tvcal({
+    domain: 'TestTVCal',
+    showIds: [1871],
+    alarm: { offset: -300 }
+  })
+  .then(cal => {
+    t.truthy(cal)
+    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1)
+    t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1)
+    t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T015500Z/)
+    t.end()
+  })
+})
+
 test.cb('unsuccessful ical generation with wrong id', t => {
   tvcal({
     domain: 'TestTVCal',
@@ -130,6 +160,23 @@ test.serial.cb('successful ical generation with title via endpoint', t => {
       t.is(res.status, 200)
       t.truthy(res.text)
       t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1)
+      MockDate.reset()
+      t.end()
+    })
+})
+
+test.serial.cb('successful ical generation with alarm', t => {
+  MockDate.set('2015-06-24T22:00:00-04:00')
+
+  request(app)
+    .get('/shows/1871?alarm=true')
+    .end((err, res) => {
+      t.falsy(err)
+      t.is(res.status, 200)
+      t.truthy(res.text)
+      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1)
+      t.is((res.text.match(/BEGIN:VALARM/g) || []).length, 1)
+      t.regex(res.text, /TRIGGER;VALUE=DATE-TIME:20150625T015500Z/)
       MockDate.reset()
       t.end()
     })
