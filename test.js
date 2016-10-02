@@ -76,8 +76,8 @@ test.cb('unsuccessful ical generation with wrong id', t => {
     domain: 'TestTVCal',
     showIds: [0]
   })
-  .then(cal => {
-    t.false(cal)
+  .catch(err => {
+    t.is(err.statusCode, 404)
     t.end()
   })
 })
@@ -87,8 +87,8 @@ test.cb('unsuccessful ical generation with wrong title', t => {
     domain: 'TestTVCal',
     showTitles: ['YYYY']
   })
-  .then(cal => {
-    t.false(cal)
+  .catch(err => {
+    t.is(err.statusCode, 404)
     t.end()
   })
 })
@@ -141,7 +141,7 @@ test.cb('unsuccessful ical generation with wrong id via endpoint', t => {
     .end((err, res) => {
       t.falsy(err)
       t.is(res.status, 404)
-      t.is(res.text, 'Shows not found!')
+      t.regex(res.text, /Show not found/)
       t.end()
     })
 })
@@ -152,7 +152,7 @@ test.cb('unsuccessful ical generation with wrong title via endpoint', t => {
     .end((err, res) => {
       t.falsy(err)
       t.is(res.status, 404)
-      t.is(res.text, 'Shows not found!')
+      t.regex(res.text, /Show not found/)
       t.end()
     })
 })

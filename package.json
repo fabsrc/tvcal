@@ -1,18 +1,18 @@
 {
   "name": "tvcal",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Get air dates of TV episodes as ical",
   "main": "lib/tvcal.js",
   "scripts": {
     "test": "standard && ava",
-    "dev": "NODE_ENV=development npm start & browser-sync start --proxy 'localhost:5000' --files 'public/js/*.tag, public/css/*.css, views/*.html'"
+    "dev": "NODE_ENV=development nodemon server.js & browser-sync start --proxy 'localhost:5000' --files 'public/js/*.tag, public/css/*.css, views/*.html'"
   },
   "author": "Fabian Schneider",
   "license": "MIT",
   "dependencies": {
     "express": "^4.14.0",
-    "ical-generator": "^0.2.7",
-    "request": "^2.74.0",
+    "ical-generator": "^0.2.8",
+    "request": "^2.75.0",
     "request-promise": "^4.1.1"
   },
   "devDependencies": {
@@ -20,6 +20,7 @@
     "browser-sync": "*",
     "mockdate": "^1.0.4",
     "nock": "^8.0.0",
+    "nodemon": "^1.10.2",
     "standard": "*",
     "supertest": "^2.0.0"
   },
