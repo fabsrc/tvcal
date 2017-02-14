@@ -1,11 +1,20 @@
 process.env.NODE_ENV = 'test'
+console.error = () => {}
 
 const test = require('ava')
 const nock = require('nock')
+const Nedb = require('nedb')
+const sinon = require('sinon')
 const request = require('supertest')
 const MockDate = require('mockdate')
-const app = require('./server')
+const apicache = require('apicache')
+const proxyquire = require('proxyquire')
+const controller = proxyquire('./controller', { nedb: class { constructor () { return new Nedb() }} })
+const app = proxyquire('./server', { controller })
 const tvcal = require('./lib/tvcal')
+
+let sandbox
+let testData = {}
 
 test.before(t => {
   const response = {
@@ -47,169 +56,282 @@ test.before(t => {
     .reply(404)
 })
 
-test.cb('successful ical generation with id', t => {
-  tvcal({
+test.beforeEach(t => {
+  sandbox = sinon.sandbox.create()
+})
+
+test('[unit] (tvcal) ical generation using id parameter', function hello (t) {
+  return tvcal({
     domain: 'TestTVCal',
     showIds: [1871]
   })
   .then(cal => {
-    t.truthy(cal)
-    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1)
-    t.end()
+    t.truthy(cal, 'returns something')
+    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
   })
+  .catch(t.falsy)
 })
 
-test.cb('successful ical generation with title', t => {
-  tvcal({
+test('[unit] (tvcal) ical generation using title parameter', t => {
+  return tvcal({
     domain: 'TestTVCal',
     showTitles: ['Mr Robot']
   })
   .then(cal => {
-    t.truthy(cal)
-    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1)
-    t.end()
+    t.truthy(cal, 'returns something')
+    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
   })
+  .catch(t.falsy)
 })
 
-test.cb('successful ical generation with alarm', t => {
-  tvcal({
+test('[unit] (tvcal) ical generation with alarm', t => {
+  return tvcal({
     domain: 'TestTVCal',
     showIds: [1871],
     alarm: true
   })
   .then(cal => {
-    t.truthy(cal)
-    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1)
-    t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1)
-    t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T020000Z/)
-    t.end()
+    t.truthy(cal, 'returns something')
+    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
+    t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1, 'returns an alarm')
+    t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T020000Z/, 'returns an alarm with no offset')
   })
+  .catch(t.falsy)
 })
 
-test.cb('successful ical generation with alarm offset', t => {
-  tvcal({
+test('[unit] (tvcal) ical genration with alarm with defined offset', t => {
+  return tvcal({
     domain: 'TestTVCal',
     showIds: [1871],
     alarm: { offset: -300 }
   })
   .then(cal => {
-    t.truthy(cal)
-    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1)
-    t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1)
-    t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T015500Z/)
-    t.end()
+    t.truthy(cal, 'returns something')
+    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
+    t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1, 'returns an alarm')
+    t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T015500Z/, 'returns an alarm with an offset')
   })
+  .catch(t.falsy)
 })
 
-test.cb('unsuccessful ical generation with wrong id', t => {
-  tvcal({
+test('[unit] (tvcal) ical generation with wrong id', t => {
+  return tvcal({
     domain: 'TestTVCal',
     showIds: [0]
   })
+  .then(t.falsy)
   .catch(err => {
-    t.is(err.statusCode, 404)
-    t.end()
+    t.is(err.statusCode, 404, 'returns 404 status')
   })
 })
 
-test.cb('unsuccessful ical generation with wrong title', t => {
-  tvcal({
+test('[unit] (tvcal) ical generation with wrong title', t => {
+  return tvcal({
     domain: 'TestTVCal',
     showTitles: ['YYYY']
   })
+  .then(t.falsy)
   .catch(err => {
-    t.is(err.statusCode, 404)
-    t.end()
+    t.is(err.statusCode, 404, 'returns 404 status')
   })
 })
 
-test.serial.cb('successful ical generation with id via endpoint with filtered episodes', t => {
-  request(app)
-    .get('/shows/1871')
-    .end((err, res) => {
-      t.falsy(err)
-      t.is(res.status, 200)
-      t.truthy(res.text)
-      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 0)
-      t.end()
-    })
+test('[unit] (tvcal) ical generation without title or id', t => {
+  const err = t.throws(() => tvcal(), Error, 'throws an error')
+  t.is(err.message, 'showIds or showTitles not defined.', 'returns an error message')
 })
 
-test.serial.cb('successful ical generation with id via endpoint', t => {
+test('[unit] (controller) createList()', t => {
+  sandbox.stub(Nedb.prototype, 'insert').returns(null)
+
+  controller.createList({}, {}, {})
+  t.true(Nedb.prototype.insert.called, 'calls db.insert')
+})
+
+test('[unit] (controller) updateList()', t => {
+  sandbox.stub(Nedb.prototype, 'update').returns(null)
+
+  controller.updateList({ params: {} }, {}, {})
+  t.true(Nedb.prototype.update.called, 'calls db.update')
+})
+
+test('[unit] (controller) getList()', t => {
+  sandbox.stub(Nedb.prototype, 'findOne').returns(null)
+
+  controller.getList({ params: {} }, {}, {})
+  t.true(Nedb.prototype.findOne.called, 'calls db.findOne')
+})
+
+test.serial('[integration] (app) GET /shows/:id', t => {
+  return request(app)
+    .get('/shows/1871')
+    .then(res => {
+      t.is(res.status, 200, 'returns 200 status')
+      t.truthy(res.text, 'returns text')
+      t.is((res.text.match(/BEGIN:VCALENDAR/g) || []).length, 1, 'returns an ical')
+      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 0, 'returns a filtered ical')
+    })
+    .catch(t.falsy)
+})
+
+test.serial('[integration] (app) GET /shows/:id with mocked date', t => {
   MockDate.set('2015-06-24T22:00:00-04:00')
 
-  request(app)
+  return request(app)
     .get('/shows/1871')
-    .end((err, res) => {
-      t.falsy(err)
-      t.is(res.status, 200)
-      t.truthy(res.text)
-      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1)
+    .then(res => {
+      t.is(res.status, 200, 'returns 200 status')
+      t.truthy(res.text, 'returns text')
+      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1, 'returns ical with events')
       MockDate.reset()
-      t.end()
     })
+    .catch(t.falsy)
 })
 
-test.serial.cb('successful ical generation with title via endpoint', t => {
+test.serial('[integration] (app) GET /shows?q=:query', t => {
   MockDate.set('2015-06-24T22:00:00-04:00')
 
-  request(app)
+  return request(app)
     .get('/shows?q=Mr Robot')
-    .end((err, res) => {
-      t.falsy(err)
-      t.is(res.status, 200)
-      t.truthy(res.text)
-      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1)
+    .then(res => {
+      t.is(res.status, 200, 'returns 200 status')
+      t.truthy(res.text, 'returns text')
+      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1, 'returns ical with events')
       MockDate.reset()
-      t.end()
     })
+    .catch(t.falsy)
 })
 
-test.serial.cb('successful ical generation with alarm', t => {
+test.serial('[integration] (app) GET /shows/:id=alarm=true', t => {
   MockDate.set('2015-06-24T22:00:00-04:00')
 
-  request(app)
+  return request(app)
     .get('/shows/1871?alarm=true')
-    .end((err, res) => {
-      t.falsy(err)
-      t.is(res.status, 200)
-      t.truthy(res.text)
-      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1)
-      t.is((res.text.match(/BEGIN:VALARM/g) || []).length, 1)
-      t.regex(res.text, /TRIGGER;VALUE=DATE-TIME:20150625T015500Z/)
+    .then(res => {
+      t.is(res.status, 200, 'returns 200 status')
+      t.truthy(res.text, 'returns text')
+      t.is((res.text.match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
+      t.is((res.text.match(/BEGIN:VALARM/g) || []).length, 1, 'returns an alarm')
+      t.regex(res.text, /TRIGGER;VALUE=DATE-TIME:20150625T015500Z/, 'returns an alarm with offset')
       MockDate.reset()
-      t.end()
     })
+    .catch(t.falsy)
 })
 
-test.cb('unsuccessful ical generation with wrong id via endpoint', t => {
-  request(app)
+test.serial('[integration] (app) POST /lists/', t => {
+  return request(app)
+    .post('/lists/')
+    .set('Content-Type', 'text/plain')
+    .send('1871')
+    .then(res => {
+      t.is(res.status, 201, 'returns 201 status')
+      t.regex(res.text, /"list":"1871"/, 'returns text with sent id')
+      testData._id = JSON.parse(res.text)._id
+    })
+    .catch(t.falsy)
+})
+
+test.serial('[integration] (app) GET /lists/:id', t => {
+  return request(app)
+    .get(`/lists/${testData._id}`)
+    .then(res => {
+      t.is(res.status, 200, 'returns 200 status')
+      t.is((res.text.match(/BEGIN:VCALENDAR/g) || []).length, 1, 'returns an ical')
+    })
+    .catch(t.falsy)
+})
+
+test.serial('[integration] (app) GET /lists/:id?raw=true', t => {
+  return request(app)
+    .get(`/lists/${testData._id}?raw=true`)
+    .then(res => {
+      t.is(res.status, 200, 'returns 200 status')
+      t.regex(res.text, /"list":"1871"/, 'returns raw list including saved id')
+    })
+    .catch(t.falsy)
+})
+
+test.serial('[integration] (app) GET /lists/:id with XHR', t => {
+  return request(app)
+    .get(`/lists/${testData._id}`)
+    .set('X-Requested-With', 'xmlhttprequest')
+    .then(res => {
+      t.is(res.status, 200, 'returns 200 status')
+      t.regex(res.text, /"list":"1871"/, 'returns raw list including saved id')
+    })
+    .catch(t.falsy)
+})
+
+test.serial('[integration] (app) PUT /lists/:id', t => {
+  return request(app)
+    .put(`/lists/${testData._id}`)
+    .set('Content-Type', 'text/plain')
+    .send('9999')
+    .then(res => {
+      t.is(res.status, 200, 'returns 200 status')
+    })
+    .catch(t.falsy)
+})
+
+test.serial('[integration] (app) DELETE /lists/:id', t => {
+  return request(app)
+    .delete(`/lists/${testData._id}`)
+    .then(res => {
+      t.is(res.status, 204, 'returns 204 status')
+    })
+    .catch(t.falsy)
+})
+
+test('[integration] (app) GET /shows/:id with wrong id', t => {
+  return request(app)
     .get('/shows/0')
-    .end((err, res) => {
-      t.falsy(err)
-      t.is(res.status, 404)
-      t.regex(res.text, /Show not found/)
-      t.end()
+    .then((res) => {
+      t.is(res.status, 404, 'returns 404 status')
+      t.regex(res.text, /Shows not found/, 'returns error message')
     })
+    .catch(t.falsy)
 })
 
-test.cb('unsuccessful ical generation with wrong title via endpoint', t => {
-  request(app)
+test('[integration] (app) GET /shows?q=:query with wrong title', t => {
+  return request(app)
     .get('/shows?q=YYYY')
-    .end((err, res) => {
-      t.falsy(err)
-      t.is(res.status, 404)
-      t.regex(res.text, /Show not found/)
-      t.end()
+    .then(res => {
+      t.is(res.status, 404, 'returns 404 status')
+      t.regex(res.text, /Shows not found/, 'returns error message')
     })
+    .catch(t.falsy)
 })
 
-test.cb('web app delivery', t => {
-  request(app)
-    .get('/')
-    .end((err, res) => {
-      t.falsy(err)
-      t.is(res.status, 200)
-      t.end()
+test('[integration] (app) GET /lists/:id with wrong list id', t => {
+  return request(app)
+    .get('/lists/999999')
+    .then(res => {
+      t.is(res.status, 404, 'returns 404 status')
+      t.regex(res.text, /List '999999' not found!/, 'returns error message')
     })
+    .catch(t.falsy)
+})
+
+test('[integration] (app) GET /shows/ without query or id', t => {
+  return request(app)
+    .get('/shows')
+    .then(res => {
+      t.is(res.status, 406, 'returns 406 status')
+      t.regex(res.text, /No Query or ID given!/, 'returns error message')
+    })
+    .catch(t.falsy)
+})
+
+test('[integration] (app) GET /', t => {
+  return request(app)
+    .get('/')
+    .then(res => {
+      t.is(res.status, 200, 'returns 200 status')
+    })
+    .catch(t.falsy)
+})
+
+test.afterEach(t => {
+  sandbox.restore()
+  apicache.clear()
 })

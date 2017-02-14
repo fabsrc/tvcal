@@ -37,7 +37,7 @@
   }
 
   toggleLink() {
-   this.linkOpen = !this.linkOpen 
+   this.linkOpen = !this.linkOpen
   }
 </script>
 

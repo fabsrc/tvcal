@@ -8,6 +8,8 @@
     <div class="button copy-button" onclick="{ copyLink }">Copy Link</div>
     <div class="button switch-button" onclick="{ switchLinks }">Switch Links</dib>
   </div>
+  
+  <saveLink link="{ getLink() }">
 </div>
 
 <script>
