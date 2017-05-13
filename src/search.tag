@@ -12,7 +12,7 @@
 
 <script>
   this.keyup = (e) => {
-    window.fetch('http://api.tvmaze.com/search/shows?q=' + e.target.value)
+    window.fetch('https://api.tvmaze.com/search/shows?q=' + e.target.value)
       .then(res => res.json())
       .then((data) => {
         const results = data.map(s => s.show)

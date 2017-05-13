@@ -35,7 +35,7 @@
     })
 
     this.addItem = (e) => {
-      window.fetch('http://api.tvmaze.com/shows/' + this.id + '?embed=episodes')
+      window.fetch('https://api.tvmaze.com/shows/' + this.id + '?embed=episodes')
         .then(res => res.json())
         .then((data) => {
           this.store.dispatch({ type: 'ADD_ITEM', item: data })
