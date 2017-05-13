@@ -23,9 +23,9 @@ Use the `PORT` environment variable to set a custom port (default is `5000`).
 
 ## Usage
 
-### Use Selector Application
+### Web UI
 
-To select shows to get air dates for go to `http://localhost:5000` and use the web application. It will create a webcal-url which you can add to your calendar.
+To select shows to get air dates for go to `http://localhost:5000` and use the web UI. It will create a webcal URL which you can add to your calendar.
 
 
 ### Get air dates by show titles
@@ -67,7 +67,7 @@ $ npm run dev
 ## Test
 
 ```bash
-npm test
+$ npm test
 ```
 
 ## Credits
