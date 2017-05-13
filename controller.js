@@ -60,7 +60,7 @@ module.exports = class Controller {
           return res.status(404).send(`List '${req.params.id}' not found!`)
         }
 
-        if (req.xhr || req.query.raw === 'true') return res.send(doc)
+        if (req.query.raw === 'true') return res.send(doc)
 
         req.params.ids = doc.list
         return Controller.getAirDates(req, res, next)

@@ -27,7 +27,6 @@ Use the `PORT` environment variable to set a custom port (default is `5000`).
 
 To select shows to get air dates for go to `http://localhost:5000` and use the web UI. It will create a webcal URL which you can add to your calendar.
 
-
 ### Get air dates by show titles
 
 ```http

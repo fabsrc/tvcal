@@ -251,17 +251,6 @@ test.serial('[integration] (app) GET /lists/:id?raw=true', t => {
     .catch(t.falsy)
 })
 
-test.serial('[integration] (app) GET /lists/:id with XHR', t => {
-  return request(app)
-    .get(`/lists/${testData._id}`)
-    .set('X-Requested-With', 'xmlhttprequest')
-    .then(res => {
-      t.is(res.status, 200, 'returns 200 status')
-      t.regex(res.text, /"list":"1871"/, 'returns raw list including saved id')
-    })
-    .catch(t.falsy)
-})
-
 test.serial('[integration] (app) PUT /lists/:id', t => {
   return request(app)
     .put(`/lists/${testData._id}`)
