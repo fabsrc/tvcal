@@ -1,12 +1,12 @@
 {
   "name": "tvcal",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Get air dates of TV episodes as ical",
   "main": "lib/tvcal.js",
   "scripts": {
     "test": "standard && ava",
     "build": "webpack -p",
-    "dev": "NODE_ENV=development nodemon --ignore public/ --ignore app/ server.js & webpack --watch"
+    "dev": "NODE_ENV=development nodemon --ignore public/ --ignore src/ server.js & webpack --watch"
   },
   "author": "Fabian Schneider",
   "homepage": "https://github.com/fabsrc/tvcal#readme",

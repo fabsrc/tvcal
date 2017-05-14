@@ -30,7 +30,7 @@ persistStore(store, {}, () => {
       })
       .then((res) => {
         if (res.list) {
-          Promise.all(res.list.split(';').map(id => window.fetch('https://api.tvmaze.com/shows/' + id + '?embed=episodes')))
+          Promise.all(res.list.split(';').map(id => window.fetch('//api.tvmaze.com/shows/' + id + '?embed=episodes')))
             .then(ress => Promise.all(ress.map(res => res.json())))
             .then(ress => {
               store.dispatch({ type: 'ADD_ITEMS', items: ress })

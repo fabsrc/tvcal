@@ -1,5 +1,5 @@
 <list-item>
-  <img class="image _no-select" if="{ image }" src="{ image && image.medium }" alt="{ name }">
+  <img class="image _no-select" if="{ image }" src="{ image && getImage() }" alt="{ name }">
   <div class="details">
     <div class="badges _no-select">
       <span class="green-badge" if="{ nextEpisode }">{ window.moment(nextEpisode.airstamp).format('MMM DD • HH:mm') }</span>
@@ -34,8 +34,10 @@
       this.nextEpisodeInfo = this.nextEpisode && `S${this.nextEpisode.season < 10 ? 0 : ''}${this.nextEpisode.season}E${this.nextEpisode.number < 10 ? 0 : ''}${this.nextEpisode.number}`
     })
 
+    this.getImage = () => this.image.medium.replace(/^http:/, '')
+
     this.addItem = (e) => {
-      window.fetch('https://api.tvmaze.com/shows/' + this.id + '?embed=episodes')
+      window.fetch('//api.tvmaze.com/shows/' + this.id + '?embed=episodes')
         .then(res => res.json())
         .then((data) => {
           this.store.dispatch({ type: 'ADD_ITEM', item: data })
