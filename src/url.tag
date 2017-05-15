@@ -1,7 +1,7 @@
 <url>
 
 <div class="app-url">
-  <input class="url" value="{ getLink() }" onClick="this.select()" readonly>
+  <a class="url" href="{ getLink() }">{ getLink() }</a>
 </div>
 
 <script>

@@ -1,10 +1,12 @@
 html {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 *,
 *::before,
 *::after {
+  -webkit-box-sizing: inherit;
   box-sizing: inherit;
 }
 
@@ -49,9 +51,15 @@ img {
 
 .app-header {
   height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   border-bottom: 3px solid;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
@@ -62,6 +70,8 @@ img {
 }
 
 .app-navigation {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -74,6 +84,7 @@ img {
   margin-left: 10px;
   cursor: pointer;
   will-change: color;
+  -webkit-transition: color 0.3s;
   transition: color 0.3s;
 }
 
@@ -87,6 +98,7 @@ img {
 
 .shows-section {
   will-change: opacity;
+  -webkit-transition: opacity 1s;
   transition: opacity 1s;
 }
 
@@ -96,10 +108,14 @@ img {
 
 .shows-section img {
   will-change: transition;
+  -webkit-transition: -webkit-filter 1s;
+  transition: -webkit-filter 1s;
   transition: filter 1s;
+  transition: filter 1s, -webkit-filter 1s;
 }
 
 .shows-section.-faded img {
+  -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
 }
 
@@ -118,7 +134,10 @@ img {
 .list-item {
   padding: 5px 0;
   border-bottom: 1px solid;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-transition: all 0.3s;
   transition: all 0.3s;
   position: relative;
 }
@@ -126,6 +145,7 @@ img {
 .list-item > .image {
   max-width: 100px;
   position: relative;
+  align-self: flex-start;
 }
 
 .list-item .details {
@@ -147,12 +167,16 @@ img {
   bottom: 5px;
   right: 0;
   position: absolute;
+  -webkit-transition: color 0.3s, -webkit-transform 0.3s;
+  transition: color 0.3s, -webkit-transform 0.3s;
   transition: transform 0.3s, color 0.3s;
+  transition: transform 0.3s, color 0.3s, -webkit-transform 0.3s;
   will-change: color transform;
 }
 
 .list-item .toggle.-active {
   color: rgb(126, 211, 33);
+  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 
@@ -165,6 +189,7 @@ img {
   right: 0;
   position: absolute;
   color: rgb(208, 2, 27);
+  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
   cursor: pointer;
 }
@@ -214,6 +239,10 @@ img {
   border-bottom: 2px solid;
 }
 
+.app-search input:focus {
+  outline: none;
+}
+
 .app-search .results {
   margin-bottom: 6em;
 }
@@ -222,14 +251,27 @@ img {
   cursor: pointer;
 }
 
+.app-url {
+  border-bottom: 2px solid;
+}
+
 .app-url .url {
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
-  border: 0;
   padding: 20px 0;
-  font-weight: 300;
   width: 100%;
-  border-bottom: 2px solid;
+  display: block;
+  transition: color 0.4s;
+  font-weight: 500;
+}
+
+.app-url .url::before {
+  content: '\00279C';
+  padding-right: 5px;
+}
+
+.app-url .url:hover {
+  color: rgb(74, 144, 226);
 }
 
 @media (max-width: 700px) {

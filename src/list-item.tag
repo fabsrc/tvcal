@@ -1,5 +1,5 @@
 <list-item>
-  <img class="image _no-select" if="{ image }" src="{ image && getImage() }" alt="{ name }">
+  <img class="image" if="{ image }" src="{ image && getImage() }" alt="{ name }">
   <div class="details">
     <div class="badges _no-select">
       <span class="green-badge" if="{ nextEpisode }">{ window.moment(nextEpisode.airstamp).format('MMM DD • HH:mm') }</span>
