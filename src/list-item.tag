@@ -24,8 +24,10 @@
   <script>
     this.on('before-mount', () => {
       const network = this.network || this.webChannel
+      const countryCode = network && network.country && network.country.code
+      const year = window.moment(this.premiered).year()
 
-      this.seriesInfo = `${network && network.country && network.country.code}, ${(window.moment(this.premiered).year() || '')}`
+      this.seriesInfo = `${countryCode || ''}${countryCode && year && ', ' || ''}${year || ''}`
       this.nextEpisode = (() => {
         if (this.status === 'Running' && this._embedded && this._embedded.episodes) {
           return this._embedded.episodes.filter(episode => window.moment(episode.airstamp).diff(window.moment().set({ hour: 0, minute: 0, second: 0, ms: 0 }).subtract(1, 'day')) >= 0)[0] || false
