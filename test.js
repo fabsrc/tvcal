@@ -65,11 +65,11 @@ test('[unit] (tvcal) ical generation using id parameter', function hello (t) {
     domain: 'TestTVCal',
     showIds: [1871]
   })
-  .then(cal => {
-    t.truthy(cal, 'returns something')
-    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
-  })
-  .catch(t.falsy)
+    .then(cal => {
+      t.truthy(cal, 'returns something')
+      t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
+    })
+    .catch(t.falsy)
 })
 
 test('[unit] (tvcal) ical generation using title parameter', t => {
@@ -77,11 +77,11 @@ test('[unit] (tvcal) ical generation using title parameter', t => {
     domain: 'TestTVCal',
     showTitles: ['Mr Robot']
   })
-  .then(cal => {
-    t.truthy(cal, 'returns something')
-    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
-  })
-  .catch(t.falsy)
+    .then(cal => {
+      t.truthy(cal, 'returns something')
+      t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
+    })
+    .catch(t.falsy)
 })
 
 test('[unit] (tvcal) ical generation with alarm', t => {
@@ -90,13 +90,13 @@ test('[unit] (tvcal) ical generation with alarm', t => {
     showIds: [1871],
     alarm: true
   })
-  .then(cal => {
-    t.truthy(cal, 'returns something')
-    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
-    t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1, 'returns an alarm')
-    t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T020000Z/, 'returns an alarm with no offset')
-  })
-  .catch(t.falsy)
+    .then(cal => {
+      t.truthy(cal, 'returns something')
+      t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
+      t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1, 'returns an alarm')
+      t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T020000Z/, 'returns an alarm with no offset')
+    })
+    .catch(t.falsy)
 })
 
 test('[unit] (tvcal) ical genration with alarm with defined offset', t => {
@@ -105,13 +105,13 @@ test('[unit] (tvcal) ical genration with alarm with defined offset', t => {
     showIds: [1871],
     alarm: { offset: -300 }
   })
-  .then(cal => {
-    t.truthy(cal, 'returns something')
-    t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
-    t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1, 'returns an alarm')
-    t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T015500Z/, 'returns an alarm with an offset')
-  })
-  .catch(t.falsy)
+    .then(cal => {
+      t.truthy(cal, 'returns something')
+      t.is((cal.toString().match(/BEGIN:VEVENT/g) || []).length, 1, 'returns an ical')
+      t.is((cal.toString().match(/BEGIN:VALARM/g) || []).length, 1, 'returns an alarm')
+      t.regex(cal.toString(), /TRIGGER;VALUE=DATE-TIME:20150625T015500Z/, 'returns an alarm with an offset')
+    })
+    .catch(t.falsy)
 })
 
 test('[unit] (tvcal) ical generation with wrong id', t => {
@@ -119,10 +119,10 @@ test('[unit] (tvcal) ical generation with wrong id', t => {
     domain: 'TestTVCal',
     showIds: [0]
   })
-  .then(t.falsy)
-  .catch(err => {
-    t.is(err.statusCode, 404, 'returns 404 status')
-  })
+    .then(t.falsy)
+    .catch(err => {
+      t.is(err.statusCode, 404, 'returns 404 status')
+    })
 })
 
 test('[unit] (tvcal) ical generation with wrong title', t => {
@@ -130,10 +130,10 @@ test('[unit] (tvcal) ical generation with wrong title', t => {
     domain: 'TestTVCal',
     showTitles: ['YYYY']
   })
-  .then(t.falsy)
-  .catch(err => {
-    t.is(err.statusCode, 404, 'returns 404 status')
-  })
+    .then(t.falsy)
+    .catch(err => {
+      t.is(err.statusCode, 404, 'returns 404 status')
+    })
 })
 
 test('[unit] (tvcal) ical generation without title or id', t => {

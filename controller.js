@@ -15,8 +15,8 @@ module.exports = class Controller {
       filterDate: new Date(new Date() - 14 * 24 * 60 * 60 * 1000),
       alarm: req.query.alarm ? { offset: -300 } : false
     })
-    .then(cal => process.env.NODE_ENV === 'development' ? res.send(cal.toString()) : cal.serve(res))
-    .catch(next)
+      .then(cal => process.env.NODE_ENV === 'development' ? res.send(cal.toString()) : cal.serve(res))
+      .catch(next)
   }
 
   static createList (req, res, next) {
