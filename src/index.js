@@ -4,6 +4,7 @@ import { createStore } from 'redux'
 import riotRedux from 'riot-redux'
 import reducer from './reducer'
 import riot from 'riot'
+import './app.tag'
 
 const persistConfig = {
   key: 'tvcal',
@@ -46,6 +47,4 @@ persistStore(store, {}, () => {
   }
 })
 riot.mixin(riotRedux(store))
-
-import './app.tag'
 riot.mount('*')
