@@ -64,6 +64,7 @@ img {
 }
 
 .app-header > .title {
+  cursor: pointer;
   font-size: 3rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -96,6 +97,10 @@ img {
   color: rgb(74, 144, 226);
 }
 
+.app-navigation .edit {
+  transform: rotate(45deg);
+}
+
 .shows-section {
   will-change: opacity;
   -webkit-transition: opacity 1s;
@@ -104,6 +109,10 @@ img {
 
 .shows-section.-faded {
   opacity: 0.6;
+}
+
+.shows-section.-hidden {
+  display: none;
 }
 
 .shows-section img {

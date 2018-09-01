@@ -11,7 +11,6 @@ app.post('/lists/', controller.createList)
 app.get('/lists/:id', cache('6 hours'), controller.getList)
 app.put('/lists/:id', controller.updateList)
 app.delete('/lists/:id', controller.deleteList)
-app.use((req, res, next) => res.redirect(404, '/'))
 app.use(controller.errorHandler)
 
 !module.parent && app.listen(process.env.PORT || 5000, function () {

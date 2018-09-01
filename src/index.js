@@ -1,15 +1,16 @@
-import { compose, createStore } from 'redux'
-import { persistStore, autoRehydrate } from 'redux-persist'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import { createStore } from 'redux'
 import riotRedux from 'riot-redux'
 import reducer from './reducer'
+import riot from 'riot'
 
-const store = createStore(
-  reducer,
-  undefined,
-  compose(
-    autoRehydrate()
-  )
-)
+const persistConfig = {
+  key: 'tvcal',
+  storage
+}
+const persistedReducer = persistReducer(persistConfig, reducer)
+const store = createStore(persistedReducer)
 
 persistStore(store, {}, () => {
   if (!window.location.hash) {
@@ -44,7 +45,7 @@ persistStore(store, {}, () => {
       })
   }
 })
-window.riot.mixin(riotRedux(store))
+riot.mixin(riotRedux(store))
 
-require('./app.tag')
-window.riot.mount('*')
+import './app.tag'
+riot.mount('*')

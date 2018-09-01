@@ -1,7 +1,7 @@
 const Nedb = require('nedb')
 const shortid = require('shortid')
 const apicache = require('apicache')
-const tvcal = require('./lib/tvcal')
+const tvcal = require('../lib/tvcal')
 const db = new Nedb({ filename: 'data/lists.db', autoload: true })
 
 module.exports = class Controller {
@@ -43,13 +43,15 @@ module.exports = class Controller {
       (err) => {
         if (err) return next(err)
 
-        apicache.clear(req.originalUrl)
+        apicache.clear(req.params.id)
         return res.sendStatus(200)
       }
     )
   }
 
   static getList (req, res, next) {
+    req.apicacheGroup = req.params.id
+
     db.findOne(
       { _id: req.params.id },
       (err, doc) => {
@@ -72,7 +74,7 @@ module.exports = class Controller {
     db.remove({ _id: req.params.id }, {}, (err) => {
       if (err) return next(err)
 
-      apicache.clear(req.originalUrl)
+      apicache.clear(req.params.id)
       return res.sendStatus(204)
     })
   }

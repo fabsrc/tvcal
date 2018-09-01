@@ -30,7 +30,6 @@ module.exports = (state = { items: [], listId: '' }, action) => {
       return Object.assign({}, state, { items: action.items })
     case 'PUT_LIST_ID':
       const listId = action.id
-
       return Object.assign({}, state, { listId })
     default:
       return state

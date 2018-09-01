@@ -12,13 +12,26 @@ module.exports = {
       files: [`${__dirname}/public/*.*`]
     })
   ],
-  externals: {
-    'riot': 'riot'
-  },
   module: {
     rules: [
-      { test: /\.tag$/, enforce: 'pre', exclude: /node_modules/, loader: 'riot-tag-loader' },
-      { test: /\.js$|\.tag$/, loader: 'babel-loader', options: { presets: ['es2015'] } }
+      {
+        test: /\.tag$/,
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: [{
+          loader: 'riot-tag-loader'
+        }]
+      },
+      {
+        test: /\.js$|\.tag$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      }
     ]
   }
 }

@@ -13,3 +13,4 @@ node_modules
 .node_repl_history
 data
 .nyc_output
+public/bundle.js

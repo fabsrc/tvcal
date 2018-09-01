@@ -9,11 +9,11 @@ const request = require('supertest')
 const MockDate = require('mockdate')
 const apicache = require('apicache')
 const proxyquire = require('proxyquire')
-const controller = proxyquire('./controller', { nedb: class { constructor () { return new Nedb() }} })
+const controller = proxyquire('./server/controller', { nedb: class { constructor () { return new Nedb() }} })
 const app = proxyquire('./server', { controller })
 const tvcal = require('./lib/tvcal')
 
-let sandbox
+const sandbox = sinon.createSandbox()
 let testData = {}
 
 test.before(t => {
@@ -54,10 +54,6 @@ test.before(t => {
     .persist()
     .get('/singlesearch/shows/?q=YYYY&embed=episodes')
     .reply(404)
-})
-
-test.beforeEach(t => {
-  sandbox = sinon.sandbox.create()
 })
 
 test('[unit] (tvcal) ical generation using id parameter', function hello (t) {
