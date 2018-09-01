@@ -93,8 +93,12 @@
 
   this.orderBy = (items = []) => {
     return items.slice().sort((a, b) => {
-      if (a.status === 'Ended' || b.status === 'Ended') {
+      if (a.status === 'Ended' && b.status === 'Ended') {
+        return moment(a.premiered) < moment(b.premiered)
+      } else if (a.status === 'Ended') {
         return 1
+      } else if (b.status === 'Ended') {
+        return -1
       }
 
       const [aNextEpisode, bNextEpisode] = [a, b].map(item => {
@@ -104,14 +108,14 @@
       })
 
       if (!aNextEpisode && !bNextEpisode) {
-        return moment(b.premiered).diff(moment(a.premiered))
+        return moment(a.premiered) < moment(b.premiered)
       } else if (!aNextEpisode) {
         return 1
       } else if (!bNextEpisode) {
         return -1
       }
 
-      return moment(aNextEpisode.airstamp).diff(moment(bNextEpisode.airstamp))
+      return moment(aNextEpisode.airstamp) > moment(bNextEpisode.airstamp)
     })
   }
 </script>
