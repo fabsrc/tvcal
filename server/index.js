@@ -1,4 +1,10 @@
-const cache = require('apicache').middleware
+const cache = require('apicache')
+  .options({
+    headers: {
+      'cache-control': 'no-cache'
+    }
+  })
+  .middleware
 const bodyParser = require('body-parser')
 const express = require('express')
 const controller = require('./controller')
